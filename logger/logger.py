@@ -11,6 +11,7 @@ writer.writerow(["timestamp", "evento"])
 def callback(ch, method, properties, body):
     datos = json.loads(body)
     writer.writerow([datos["ts"], datos["evento"]])
+    csvfile.flush()  # Forzar escritura en disco
     print(f"[Logger] Registrado: {datos['evento']}")
 from utils.wait_for_rabbitmq import wait_for_rabbitmq
 
@@ -19,5 +20,5 @@ channel = connection.channel()
 
 channel.queue_declare(queue='logger.eventos')
 channel.basic_consume(queue='logger.eventos', on_message_callback=callback, auto_ack=True)
-print("Logger iniciado...")
+print("Logger iniciado...",flush=True)
 channel.start_consuming()

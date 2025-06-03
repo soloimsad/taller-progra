@@ -26,5 +26,5 @@ while True:
     viento = random.uniform(0, 50)
     mensaje = f"viento|{sensor_id}|{viento:.2f}"
     channel.basic_publish(exchange='', routing_key=queue, body=mensaje)
-    print(f"[Viento] {mensaje}")
+    print(f"[Viento] {mensaje}",flush=True)
     time.sleep(random.randint(10, 15))

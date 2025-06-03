@@ -13,17 +13,17 @@ for i in range(10):
             )
         )
         channel = connection.channel()
-        print("✅ Conectado a RabbitMQ")
+        print("✅ Conectado a RabbitMQ",flush=True)
         break
     except pika.exceptions.AMQPConnectionError:
-        print(f"⏳ Intento {i+1}/10: Esperando que RabbitMQ esté disponible...")
+        print(f"⏳ Intento {i+1}/10: Esperando que RabbitMQ esté disponible...",flush=True)
         time.sleep(5)
 else:
     raise Exception("❌ No se pudo conectar a RabbitMQ después de 10 intentos")
 
 while True:
-    escurrimiento = random.choice([0, 0, 1])  # 1 = escurrimiento detectado
+    escurrimiento = random.choice([0, 0, 1])  
     mensaje = f"escurrimiento|{sensor_id}|{escurrimiento}"
     channel.basic_publish(exchange='', routing_key=queue, body=mensaje)
-    print(f"[Escurrimiento] {mensaje}")
+    print(f"[Escurrimiento] {mensaje}",flush=True)
     time.sleep(random.randint(10, 15))

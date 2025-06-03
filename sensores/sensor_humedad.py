@@ -26,5 +26,5 @@ while True:
     humedad = random.uniform(15, 40)
     mensaje = f"humedad|{sensor_id}|{humedad:.2f}"
     channel.basic_publish(exchange='', routing_key=queue, body=mensaje)
-    print(f"[Humedad] {mensaje}")
+    print(f"[Humedad] {mensaje}",flush=True)
     time.sleep(random.randint(10, 15))

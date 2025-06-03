@@ -25,5 +25,5 @@ while True:
     temperatura = random.uniform(20, 40)
     mensaje = f"temperatura|{sensor_id}|{temperatura:.2f}"
     channel.basic_publish(exchange='', routing_key=queue, body=mensaje)
-    print(f"[Temperatura] {mensaje}")
+    print(f"[Temperatura] {mensaje}",flush=True)
     time.sleep(random.randint(10, 15))

@@ -11,7 +11,7 @@ def convertir(mensaje_raw):
 def callback(ch, method, properties, body):
     mensaje_json = convertir(body)
     channel.basic_publish(exchange='', routing_key='sensores.convertidos', body=mensaje_json)
-    print(f"[Traductor] {mensaje_json}")
+    print(f"[Traductor] {mensaje_json}",flush=True)
 
 from utils.wait_for_rabbitmq import wait_for_rabbitmq
 
