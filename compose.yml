@@ -1,0 +1,91 @@
+version: '3.8'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
+
+  sensor_humedad:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /app
+    command: python sensores/sensor_humedad.py
+    depends_on: [rabbitmq]
+    volumes:
+      - .:/app
+
+  sensor_viento:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /app
+    command: python sensores/sensor_viento.py
+    depends_on: [rabbitmq]
+    volumes:
+      - .:/app
+
+  sensor_temperatura:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /app
+    command: python sensores/sensor_temperatura.py
+    depends_on: [rabbitmq]
+    volumes:
+      - .:/app
+
+  sensor_escurrimiento:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /app
+    command: python sensores/sensor_escurrimiento.py
+    depends_on: [rabbitmq]
+    volumes:
+      - .:/app
+
+  traductor:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /app
+    command: python traductor/traductor.py
+    depends_on: [rabbitmq]
+    volumes:
+      - .:/app
+
+  filtro:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /app
+    command: python filtro/filtro.py
+    depends_on: [rabbitmq]
+    volumes:
+      - .:/app
+
+  activador:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /app
+    command: python activador/activador.py
+    depends_on: [rabbitmq]
+    volumes:
+      - .:/app
+
+  logger:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /app
+    command: python logger/logger.py
+    depends_on: [rabbitmq]
+    volumes:
+      - .:/app
