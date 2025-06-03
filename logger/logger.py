@@ -1,7 +1,9 @@
 # logger.py
 import pika, json, csv
 from datetime import datetime
-
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.abspath(__file__)) + '/../')
 csvfile = open("registro_eventos.csv", "a", newline="")
 writer = csv.writer(csvfile)
 writer.writerow(["timestamp", "evento"])
@@ -10,7 +12,7 @@ def callback(ch, method, properties, body):
     datos = json.loads(body)
     writer.writerow([datos["ts"], datos["evento"]])
     print(f"[Logger] Registrado: {datos['evento']}")
-from wait_for_rabbitmq import wait_for_rabbitmq
+from utils.wait_for_rabbitmq import wait_for_rabbitmq
 
 connection = wait_for_rabbitmq()
 channel = connection.channel()

@@ -1,5 +1,8 @@
 # traductor.py
 import pika, json
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.abspath(__file__)) + '/../')
 
 def convertir(mensaje_raw):
     tipo, sensor_id, valor = mensaje_raw.decode().split('|')
@@ -10,7 +13,7 @@ def callback(ch, method, properties, body):
     channel.basic_publish(exchange='', routing_key='sensores.convertidos', body=mensaje_json)
     print(f"[Traductor] {mensaje_json}")
 
-from wait_for_rabbitmq import wait_for_rabbitmq
+from utils.wait_for_rabbitmq import wait_for_rabbitmq
 
 connection = wait_for_rabbitmq()
 channel = connection.channel()
